@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <app-nav></app-nav>
+        <!-- <app-nav></app-nav> -->
         <div id="overlay"></div>
         <div class="d-flex pt-5 px-3 ">
             <div class="automation pt-5 mt-3 ml-auto">
@@ -16,12 +16,12 @@
 </template>
 <script>
 
-import nav from './nav'
+// import nav from './nav'
 
 export default {
-  components: {
-    'app-nav': nav
-  }
+//   components: {
+//     'app-nav': nav
+//   }
 }
 </script>
 <style scoped>

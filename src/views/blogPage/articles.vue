@@ -61,7 +61,7 @@ export default {
       return this.currentPage >= this.pageCount
     },
     apiUrl () {
-      return `https://newsapi.org/v2/everything?q=science&language=en&page=${this.currentPage}&pageSize=${this.maxPerPage}&apiKey=3d65f891e67841f3b2ca700bb6746399`
+      return `https://newsapi.org/v2/everything?q=technology&language=en&page=${this.currentPage}&pageSize=${this.maxPerPage}&apiKey=3d65f891e67841f3b2ca700bb6746399`
     }
   },
   methods: {

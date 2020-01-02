@@ -91,11 +91,13 @@
 import header from '../components/header.vue'
 import homeSection from '../components/homeSection.vue'
 import footer from '../components/footer.vue'
+// import sideBar from '../components/sidebar'
 export default {
   components: {
     'app-header': header,
     'home-Section': homeSection,
     'app-footer': footer
+    // 'app-sidebar': sideBar
   }
 }
 </script>

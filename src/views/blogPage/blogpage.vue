@@ -1,6 +1,6 @@
 <template>
     <div>
-        <app-nav></app-nav>
+        <!-- <app-nav></app-nav> -->
         <div class="container-fluid p-0 head mt-4">
             <div class="container text-center blog pt-4">
                 <h2>Blog Afrianska</h2>
@@ -66,7 +66,7 @@
 
              <div class="popular-card my-4" v-if="popularDisplay" ref="displayPopular">
               <div class="row">
-                <div class="col-md-4 d-flex mt-4" v-for="(populars, index) in popular" :key="index">
+                <div class="col-md-4 d-flex mt-4" v-for="populars in popular" :key="populars.id">
                     <div class="card" style="width: 100%; height: 38em">
                       <img style=" height:250px; width: 100%" :src='populars.urlToImage' class="card-img-top" alt="...">
                       <div class="card-body">
@@ -80,7 +80,7 @@
               </div>
             </div>
             <div class="d-flex ">
-              <div class="ml-auto mt-4"><h6  class="popular-article" @click="getAllaticlesOnThisCategory" ref="popularArticle">SEE ALL POPULAR ARTICLE</h6></div>
+              <div class="ml-auto mt-4"><h6  class="popular-article" @click="getAllarticlesOnThisCategory" ref="popularArticle">SEE ALL POPULAR ARTICLE</h6></div>
             </div>
             <div class="text-center" v-if="spin">
               <div class="lds-dual-ring"></div>
@@ -94,7 +94,7 @@
     </div>
 </template>
 <script>
-import nav from '../../components/nav'
+// import nav from '../../components/nav'
 import footer from '../../components/footer'
 import articles from './articles'
 export default {
@@ -109,7 +109,7 @@ export default {
     }
   },
   components: {
-    'app-nav': nav,
+    // 'app-nav': nav,
     'app-articles': articles,
     'app-footer': footer
   },
@@ -124,31 +124,31 @@ export default {
     //   }
     // }
     fetchTopData () {
-      this.$http.get(`https://newsapi.org/v2/top-headlines?country=ng&category=science&apiKey=3d65f891e67841f3b2ca700bb6746399`)
+      this.$http.get(`https://newsapi.org/v2/top-headlines?country=ng&category=science&pageSize=4&apiKey=3d65f891e67841f3b2ca700bb6746399`)
         .then(response => {
           return response.json()
         })
         .then(data => {
-          this.headline = data.articles.slice(0, 4)
+          this.headline = data.articles
           console.log(data.articles.length)
           this.$refs.load.hidden = true
+          console.log(this.headline)
         })
         .catch(err => {
           console.log(err)
         })
     },
-    getAllaticlesOnThisCategory (event) {
-      this.spin = true
-      this.$http.get(`https://newsapi.org/v2/top-headlines?country=ng&category=science&apiKey=3d65f891e67841f3b2ca700bb6746399`)
+    getAllarticlesOnThisCategory () {
+      console.log('hey')
+      // this.spin = true
+      console.log('hi')
+      this.$http.get(`https://newsapi.org/v2/top-headlines?country=gb&apiKey=3d65f891e67841f3b2ca700bb6746399`)
         .then(response => {
           return response.json()
         })
         .then(data => {
           this.popular = data.articles.slice(5)
-          console.log(data.articles.length)
-        })
-        .catch(err => {
-          console.log(err)
+          console.log(this.popular[2].description)
         })
       if (!this.popularDisplay) {
         this.popularDisplay = true
@@ -158,7 +158,7 @@ export default {
         this.popularDisplay = false
         this.$refs.popularArticle.innerText = 'SEE POPULAR ARTICLE'
       }
-      this.spin = false
+      // this.spin = false
     }
   },
   filters: {
