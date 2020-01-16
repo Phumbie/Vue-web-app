@@ -5,10 +5,12 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueResource from 'vue-resource'
+import vueSmoothScroll from 'vue2-smooth-scroll'
 
 // import nav from './components/nav.vue'
 
 // Vue.component('app-nav', nav)
+Vue.use(vueSmoothScroll)
 Vue.use(VueResource)
 
 Vue.config.productionTip = false

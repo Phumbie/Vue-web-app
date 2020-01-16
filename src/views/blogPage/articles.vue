@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="scroll-top" class="py-2">
         <h6 class="mt-3 topic">ALL ARTICLES</h6>
         <div class="articles container-fluid p-0">
             <div class="row my-3 p-0 box" v-for="(article, index) in articles" :key="index">
@@ -23,20 +23,28 @@
             </div>
         </div>
         <div class="d-flex navigation justify-content-between my-3">
-            <div class="d-flex previous" :class="{isDisabled: disabled}"  ref="previous">
+            <div class="previous" :class="{isDisabled: disabled}"  ref="previous">
+              <a href="#scroll-top" v-smooth-scroll>
+              <div class="d-flex">
                 <div class="arrow-left mr-2">
                     <img src="@/assets/image/ic_arrow_back_18px.svg" alt="">
                 </div>
                 <div>
                     <p @click.prevent="prev">New Post</p>
-                </div> <br>
-                <!-- <section>Error</section> -->
-            </div>
-            <div class="d-flex next">
-                <p class="next" @click.prevent="next">Old Post</p>
-                <div class="arrow-right ml-2">
-                    <img src="@/assets/image/ic_arrow_forward_18px.svg" alt="">
                 </div>
+              </div>
+                <!-- <section>Error</section> -->
+                </a>
+            </div>
+            <div>
+                <a href="#scroll-top" v-smooth-scroll>
+                  <div class="d-flex next">
+                    <p class="next" @click.prevent="next">Old Post</p>
+                    <div class="arrow-right ml-2">
+                    <img src="@/assets/image/ic_arrow_forward_18px.svg" alt="">
+                    </div>
+                  </div>
+                </a>
             </div>
         </div>
     </div>
