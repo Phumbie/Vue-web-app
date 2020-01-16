@@ -1,7 +1,7 @@
 <template>
     <div>
                 <div class="mt-3 d-flex">
-                        <img src="@/assets/image/Group.svg" alt="logo">
+                        <router-link to="/"><img src="@/assets/image/Group.svg" alt="logo"></router-link>
                     <div class="ml-auto menu">
                         <!-- <div>
                             <b-dropdown id="dropdown-1" text="menu"  class="m-md-2">
@@ -15,9 +15,10 @@
                             @click.prevent="toggle">
                             <slot>
                                     <button type="button" class="burger-button" title="Menu">
-                                    <span class="burger-bar burger-bar--1"></span>
-                                    <span class="burger-bar burger-bar--2"></span>
-                                    <span class="burger-bar burger-bar--3"></span>
+                                         <span class="hidden">Toggle menu</span>
+                                        <span class="burger-bar burger-bar--1"></span>
+                                        <span class="burger-bar burger-bar--2"></span>
+                                        <span class="burger-bar burger-bar--3"></span>
                                     </button>
                             </slot>
     </div>
@@ -39,6 +40,7 @@ export default {
   methods: {
     toggle () {
       //   this.isBurgerActive = !this.isBurgerActive
+    //   alert('Clicked')
       mutations.toggleNav()
     }
   }

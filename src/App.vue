@@ -15,10 +15,20 @@
 <script>
 import nav from './components/nav.vue'
 import sideBar from './components/sidebar'
+import { store } from '@/store.js'
 export default {
   components: {
     'app-sidebar': sideBar,
     'app-nav': nav
+  },
+  methods: {
+    isBurgerActive () {
+      console.log('hi')
+      store.isNavOpen = false
+    }
+  },
+  created () {
+    this.isBurgerActive()
   }
 }
 </script>

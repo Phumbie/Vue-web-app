@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-md-6 description">
                     <div class="header">
-                        <h5>{{ article.title }}</h5>
+                        <a :href="article.url"  target="_blank"><h5>{{ article.title }}</h5></a>
                     </div>
                     <div class="article mt-2">
                         {{ article.content | shortenString }}
@@ -23,13 +23,14 @@
             </div>
         </div>
         <div class="d-flex navigation justify-content-between my-3">
-            <div class="d-flex previous">
+            <div class="d-flex previous" :class="{isDisabled: disabled}"  ref="previous">
                 <div class="arrow-left mr-2">
                     <img src="@/assets/image/ic_arrow_back_18px.svg" alt="">
                 </div>
                 <div>
-                    <p class="previous" @click.prevent="prev" >New Post</p>
-                </div>
+                    <p @click.prevent="prev">New Post</p>
+                </div> <br>
+                <!-- <section>Error</section> -->
             </div>
             <div class="d-flex next">
                 <p class="next" @click.prevent="next">Old Post</p>
@@ -47,7 +48,8 @@ export default {
       currentPage: 1,
       maxPerPage: 5,
       totalResults: 0,
-      articles: []
+      articles: [],
+      disabled: false
     }
   },
   computed: {
@@ -79,14 +81,22 @@ export default {
         })
     },
     next () {
+      this.disabled = false
+
       console.log(this.articles.length)
       console.log(this.currentPage)
       this.currentPage += 1
       this.fetchNews()
+      console.log(this.$refs)
     },
     prev () {
-      this.currentPage -= 1
-      this.fetchNews()
+      if (this.currentPage === 1) {
+        this.disabled = true
+      } else {
+        this.disabled = false
+        this.currentPage -= 1
+        this.fetchNews()
+      }
     }
   },
   created () {
@@ -111,5 +121,18 @@ export default {
 }
 .box{
     /* height:12rem */
+}
+.isDisabled{
+  color: currentColor;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+  pointer-events: none
+}
+a{
+  color:inherit
+}
+a:hover{
+  color: #356EAF;
+  text-decoration:none
 }
 </style>

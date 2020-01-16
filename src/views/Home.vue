@@ -91,6 +91,7 @@
 import header from '../components/header.vue'
 import homeSection from '../components/homeSection.vue'
 import footer from '../components/footer.vue'
+import { store } from '@/store.js'
 // import sideBar from '../components/sidebar'
 export default {
   components: {
@@ -98,6 +99,9 @@ export default {
     'home-Section': homeSection,
     'app-footer': footer
     // 'app-sidebar': sideBar
+  },
+  created () {
+    store.isNavOpen = false
   }
 }
 </script>

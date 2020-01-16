@@ -50,21 +50,50 @@
                         <div class="contact-card p-3">
                             <div class="form-header">
                                 <h3 class='topic'>SEND US MESSAGE</h3>
-                                <form action="#" method="post">
+                                <form
+                                action="https://vuejs.org/"
+                                 method="post"
+                                 @submit='checkForm'
+                                 novalidate='true'
+                                >
+                                 <p v-if="errors.length">
+                                    <b>Please correct the following error(s):</b>
+                                    <ul>
+                                    <li v-for="(error,index) in errors" :key="index">{{ error }}</li>
+                                    </ul>
+                                </p>
                                     <div class="full-name pt-3">
-                                        <label for="fname">First Name</label> <br>
-                                        <input type="text" id="fname" name="fullname" placeholder="Your name">
+                                        <label for="fname">Full Name</label> <br>
+                                        <input class=" form" type="text"
+                                         id="fname"
+                                         name="fullname"
+                                         placeholder="Your name"
+                                         v-model="fullName">
                                     </div>
                                     <div class="email pt-3">
-                                        <label for="email">Email</label> <br>
-                                        <input type="email" id="email" name="email" placeholder="Your email">
+                                        <label  for="email">Email</label> <br>
+                                        <input class="form" type="email"
+                                         id="email"
+                                          name="email"
+                                          placeholder="Your email"
+                                          v-model="email">
                                     </div>
                                     <div class="message pt-3">
                                         <label for="message">Message</label>
-                                        <textarea name="messgae" id="message" cols="30" rows="10" placeholder="Your message"></textarea>
+                                        <textarea
+                                        name="messgae"
+                                         id="message" cols="30" rows="10"
+                                         placeholder="Your message"
+                                         v-model="message"
+                                         ></textarea>
                                     </div>
                                 </form>
-                                <button class="submit">SUBMIT</button>
+                                <!-- <button class="submit">SUBMIT</button> -->
+                                 <input
+                                    type="submit"
+                                    value="Submit"
+                                class="submit"
+                                @click="checkForm">
                             </div>
                         </div>
                     </div>
@@ -79,7 +108,40 @@
 </template>
 <script>
 import footer from '../components/footer'
+import { store } from '@/store.js'
+
 export default {
+  data () {
+    return {
+      errors: [],
+      fullName: '',
+      email: '',
+      message: ''
+    }
+  },
+  methods: {
+    checkForm: (e) => {
+      this.errors = []
+      console.log('accepted')
+      if (this.fullName && this.email) {
+        console.log('true')
+        return true
+      }
+      if (!this.fullName) {
+        this.errors.push('Full Name required')
+      }
+      if (!this.email) {
+        this.errors.push('Kindly provide your valid Email')
+      }
+      if (!this.message) {
+        this.errors.push('Kindly fill us a message')
+      }
+      e.preventDefault()
+    }
+  },
+  created () {
+    store.isNavOpen = false
+  },
   components: {
     'app-footer': footer
   }
@@ -103,7 +165,8 @@ export default {
 #message{
     resize:none
 }
-input{
+
+.form{
     width:100%;
     border-radius: 10px;
     padding: 20px 15px;

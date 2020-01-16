@@ -19,7 +19,10 @@ export default {
     // closeSidebarPanel () {
     //   this.isPanelOpen = false
     // }
-    closeSideBarPanel: mutations.toggleNav
+    // closeSideBarPanel: mutations.toggleNav
+    closeSidebarPanel () {
+      return mutations.toggleNav
+    }
   },
   computed: {
     isPanelOpen () {
@@ -30,8 +33,7 @@ export default {
 </script>
 <style>
     .slide-enter-active,
-    .slide-leave-active
-    {
+    .slide-leave-active{
         transition: transform 0.2s ease;
     }
 
@@ -50,10 +52,10 @@ export default {
         left: 0;
         cursor: pointer;
     }
-
     .sidebar-panel {
         overflow-y: auto;
-        background-color: #266dbc;
+        background-color: black;
+        opacity: 0.7;
         position: fixed;
         left: 0;
         top: 0;

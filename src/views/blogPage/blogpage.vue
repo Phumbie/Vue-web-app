@@ -26,7 +26,7 @@
             <div class="row" v-if="headline.length">
                 <div class="col-md-6">
                     <div class="popular-header py-3">
-                        <h1> {{headline[0].title}}  </h1>
+                        <a :href="headline[0].url" target="_blank"><h1> {{headline[0].title}} </h1></a>
                     </div>
                     <div class="popular-article py-4">
                         <p>{{ headline[0].content | shortenString }}</p>
@@ -50,11 +50,11 @@
             </div>
             <div class="popular-card my-4">
               <div class="row">
-                <div class="col-md-4 d-flex mt-4" v-for="(headlines, index) in headline.slice(1)" :key="index">
+                <div class="col-md-4 d-flex mt-4" v-for="headlines in headline.slice(1)" :key="headlines.id">
                     <div class="card" style="width: 100%; height: 38em">
                       <img style=" height:250px; width: 100%" :src='headlines.urlToImage' class="card-img-top" alt="...">
                       <div class="card-body">
-                        <h5 class="card-title"> {{headlines.title}}</h5>
+                        <a href="headlines.url " target="_blank"><h5 class="card-title"> {{headlines.title}}</h5></a>
                         <p class="card-text"> {{headlines.content | shortenString}} </p>
                         <p class="mt-5"> {{headlines.author}} </p>
                         <p class=" d-flex align-self-end"> {{headlines.publishedAt | dateConvert}}, 3min read</p>
@@ -79,8 +79,11 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex ">
-              <div class="ml-auto mt-4"><h6  class="popular-article" @click="getAllarticlesOnThisCategory" ref="popularArticle">SEE ALL POPULAR ARTICLE</h6></div>
+            <div class="d-flex">
+              <div class="ml-auto">
+                <div class="ml-auto" v-if="popularDisplay"><h6  class="popular-article" @click="fetchTopData()" ref="popularArticle">SEE ALL POPULAR ARTICLE</h6></div>
+                <div class="ml-auto mt-4" v-else><h6  class="popular-article" @click="fetchTopData(0, 4)" ref="popularArticle">SEE LESS ARTICLE</h6></div>
+              </div>
             </div>
             <div class="text-center" v-if="spin">
               <div class="lds-dual-ring"></div>
@@ -97,6 +100,7 @@
 // import nav from '../../components/nav'
 import footer from '../../components/footer'
 import articles from './articles'
+import { store } from '@/store.js'
 export default {
   data () {
     return {
@@ -123,43 +127,43 @@ export default {
     //     console.log(err)
     //   }
     // }
-    fetchTopData () {
-      this.$http.get(`https://newsapi.org/v2/top-headlines?country=ng&category=science&pageSize=4&apiKey=3d65f891e67841f3b2ca700bb6746399`)
+    fetchTopData (start, stop) {
+      this.popularDisplay = !this.popularDisplay
+      this.$http.get(`https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=3d65f891e67841f3b2ca700bb6746399`)
         .then(response => {
           return response.json()
         })
         .then(data => {
-          this.headline = data.articles
-          console.log(data.articles.length)
+          this.headline = data.articles.slice(start, stop)
+          console.log(this.headline)
           this.$refs.load.hidden = true
           console.log(this.headline)
         })
         .catch(err => {
           console.log(err)
         })
-    },
-    getAllarticlesOnThisCategory () {
-      console.log('hey')
-      // this.spin = true
-      console.log('hi')
-      this.$http.get(`https://newsapi.org/v2/top-headlines?country=gb&apiKey=3d65f891e67841f3b2ca700bb6746399`)
-        .then(response => {
-          return response.json()
-        })
-        .then(data => {
-          this.popular = data.articles.slice(5)
-          console.log(this.popular[2].description)
-        })
-      if (!this.popularDisplay) {
-        this.popularDisplay = true
-        this.$refs.popularArticle.innerText = 'SEE LESS ARTICLE'
-        console.log(this.$refs)
-      } else {
-        this.popularDisplay = false
-        this.$refs.popularArticle.innerText = 'SEE POPULAR ARTICLE'
-      }
-      // this.spin = false
     }
+    // getAllarticlesOnThisCategory () {
+    //   console.log('hey')
+    //   // this.spin = true
+    //   this.$http.get(`https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=3d65f891e67841f3b2ca700bb6746399`)
+    //     .then(response => {
+    //       return response.json()
+    //     })
+    //     .then(data => {
+    //       this.popular = data.articles.slice(5)
+    //       console.log(this.popular[2].description)
+    //     })
+    //   if (!this.popularDisplay) {
+    //     this.popularDisplay = true
+    //     this.$refs.popularArticle.innerText = 'SEE LESS ARTICLE'
+    //     console.log(this.$refs)
+    //   } else {
+    //     this.popularDisplay = false
+    //     this.$refs.popularArticle.innerText = 'SEE POPULAR ARTICLE'
+    //   }
+    //   this.spin = false
+    // }
   },
   filters: {
     dateConvert: (value) => {
@@ -171,7 +175,8 @@ export default {
     }
   },
   created () {
-    this.fetchTopData()
+    this.fetchTopData(0, 4)
+    store.isNavOpen = false
   }
 }
 </script>
@@ -210,8 +215,18 @@ export default {
   color:#356EAF
 }
 /* .card{
-  overflow: auto !important;
+  cursor: pointer;
+}
+.card:hover{
+  height: 200px
 } */
+a{
+  color:inherit
+}
+a:hover{
+  color: #356EAF;
+  text-decoration:none
+}
 .loader {
   color: #356EAF;
   font-size: 90px;
